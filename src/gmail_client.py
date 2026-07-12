@@ -52,11 +52,14 @@ def fetch_recent_school_emails(query: str = "newer_than:1d") -> List[Dict[str, s
         headers = msg_data['payload'].get('headers', [])
         subject = next((h['value'] for h in headers if h['name'] == 'Subject'), 'No Subject')
         sender = next((h['value'] for h in headers if h['name'] == 'From'), 'Unknown Sender')
+        date_received = next((h['value'] for h in headers if h['name'] == 'Date'), 'Unknown Date')
         
         body_text = extract_email_body(msg_data['payload'])
         
         parsed_emails.append({
             "subject": subject,
+            "sender": sender,
+            "date_received": date_received,
             "sender": sender,
             "body": body_text[:2000] # Truncate to save token costs if emails are massive
         })
