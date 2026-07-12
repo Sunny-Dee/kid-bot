@@ -18,11 +18,12 @@ def send_to_discord(digest: SchoolDigest):
     for item in digest.action_items:
         embeds.append({
             "title": f"⚠️ Action Required: {item.summary}",
-            "color": 15158332, # Red color for visibility
+            "color": 15158332, 
             "fields": [
                 {"name": "Date", "value": item.event_date, "inline": True},
                 {"name": "Child", "value": item.child_name, "inline": True},
-                {"name": "What you need to do", "value": item.required_action, "inline": False}
+                {"name": "What you need to do", "value": item.required_action, "inline": False},
+                {"name": "Source Email", "value": f"From: {item.source_sender}\nReceived: {item.email_date}", "inline": False}
             ]
         })
         
