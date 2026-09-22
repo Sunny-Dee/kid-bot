@@ -2,16 +2,19 @@ import os
 import requests
 from vertex_client import SchoolDigest
 
-def send_to_discord(digest: SchoolDigest):
+# UPDATE: Add webhook_url as a parameter
+def send_to_discord(digest: SchoolDigest, webhook_url: str = None):
     """Formats the digest and posts it to a Discord webhook."""
-    webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    # Fallback to the default general webhook if none is provided
+    if not webhook_url:
+        webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
+        
     if not webhook_url:
         print("No Discord webhook configured.")
         return
 
-    # If there are no action items, we skip sending a daily alert to reduce noise.
-    if not digest.has_action_items:
-        print("No action items found today. Skipping Discord notification.")
+    if not digest.has_action_items and not digest.general_summary.strip():
+        print("No action items or general announcements found today. Skipping Discord notification.")
         return
 
     embeds = []
@@ -27,11 +30,12 @@ def send_to_discord(digest: SchoolDigest):
             ]
         })
         
-    embeds.append({
-        "title": "General Summary",
-        "description": digest.general_summary,
-        "color": 3447003 # Blue color for general info
-    })
+    if digest.general_summary.strip():
+        embeds.append({
+            "title": "General Announcements",
+            "description": digest.general_summary,
+            "color": 3447003
+        })
 
     payload = {
         "content": "🚨 **New School Action Items Detected!**",
