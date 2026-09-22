@@ -30,5 +30,9 @@ spec:
               value: "${GMAIL_CLIENT_SECRET}"
             - name: GMAIL_REFRESH_TOKEN
               value: "${GMAIL_REFRESH_TOKEN}"
+            - name: CHILD_NAME_1
+              value: "${CHILD_NAME_1}"
+            - name: KIDS_GRADE
+              value: "${KIDS_GRADE}"
             - name: DISCORD_WEBHOOK_URL
               value: "${DISCORD_WEBHOOK_URL_PS}"
