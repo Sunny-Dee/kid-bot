@@ -1,7 +1,7 @@
 import os
 import sys
 from gmail_client import fetch_recent_school_emails
-from vertex_client import analyze_emails
+from vertex_client import analyze_emails, analyze_parentsquare_emails
 from discord_client import send_to_discord
 
 def main():
@@ -26,10 +26,18 @@ def main():
             return
             
         print(f"Found {len(emails)} emails. Analyzing with Vertex AI...")
-        digest = analyze_emails(emails)
         
-        print("Analysis complete. Sending to Discord...")
-        send_to_discord(digest)
+        agent_mode = os.environ.get("AGENT_MODE", "GENERAL")
+        
+        if agent_mode == "PARENTSQUARE":
+            digest = analyze_parentsquare_emails(emails)
+            webhook = os.environ.get("DISCORD_WEBHOOK_URL_PS")
+            print("ParentSquare analysis complete. Sending to Discord...")
+            send_to_discord(digest, webhook_url=webhook)
+        else:
+            digest = analyze_emails(emails)
+            print("General analysis complete. Sending to Discord...")
+            send_to_discord(digest) # Uses default webhook
         
         print("Job completed successfully.")
         

@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: "${{ secrets.GCP_SA_KEY }}"
 
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+        uses: google-github-actions/setup-gcloud@v3
 
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
@@ -39,6 +39,11 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           SCHOOL_NAME: ${{ secrets.SCHOOL_NAME }}
           CHILDCARE_NAME: ${{ secrets.CHILDCARE_NAME }}
+          CHILD_NAME_1: ${{ secrets.CHILD_NAME_1 }}
+          CHILD_NAME_2: ${{ secrets.CHILD_NAME_2 }}
+          CHILDCARE_LEVEL: ${{ secrets.CHILDCARE_LEVEL }}
+          KIDS_GRADE: ${{ secrets.KIDS_GRADE }}
+          TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
         run: |
           envsubst < job.yaml > job-hydrated.yaml
           gcloud run jobs replace job-hydrated.yaml --region us-central1
