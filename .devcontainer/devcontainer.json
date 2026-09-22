@@ -1,0 +1,5 @@
+{
+  "name": "School Agent Workspace",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "bash .devcontainer/setup.sh"
+}
