@@ -1,0 +1,45 @@
+name: Deploy School Agent
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build and Push Docker Image
+        env:
+          PROJECT_ID: your-project-id # Replace with your actual project ID
+        run: |
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/school-agent-repo/school-agent:latest .
+          docker push us-central1-docker.pkg.dev/$PROJECT_ID/school-agent-repo/school-agent:latest
+
+      - name: Inject Secrets and Deploy
+        env:
+          # Pull the secrets from GitHub and expose them as environment variables for this step
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          # Use envsubst to swap the ${} placeholders in the YAML with the secrets above
+          envsubst < job.yaml > job-hydrated.yaml
+
+          # Deploy the hydrated YAML to Cloud Run
+          gcloud run jobs replace job-hydrated.yaml --region us-central1
