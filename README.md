@@ -5,9 +5,9 @@ Never miss crazy hair day again.
 
 [![Deploy School Agent](https://github.com/Sunny-Dee/kid-bot/actions/workflows/deploy.yaml/badge.svg)](https://github.com/Sunny-Dee/kid-bot/actions/workflows/deploy.yaml)
 
-# Github Copespace setup
+# Github Copespace Setup
 
-To setup your environment in a Githun codespace run the following 
+To setup your environment in a Github codespace run the following 
 
 ```shell
 python -m venv venv
@@ -26,7 +26,7 @@ gcloud auth application-default login
 gcloud config set project kid-bot-501018
 ```
 
-# Generate Gmail token
+# Generate Gmail Token
 
 __Note:__ If you are in a GitHub Codespace run make sure you first run the setup commands above. 
 
