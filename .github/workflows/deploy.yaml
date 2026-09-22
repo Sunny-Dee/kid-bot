@@ -25,7 +25,7 @@ jobs:
 
       - name: Build and Push Docker Image
         env:
-          PROJECT_ID: your-project-id # Replace with your actual project ID
+          PROJECT_ID: '${GCP_PROJECT_ID}'
         run: |
           docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/school-agent-repo/school-agent:latest .
           docker push us-central1-docker.pkg.dev/$PROJECT_ID/school-agent-repo/school-agent:latest
