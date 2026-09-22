@@ -1,0 +1,44 @@
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  annotations:
+    run.googleapis.com/creator: delianaescobari@gmail.com
+    run.googleapis.com/lastModifier: delianaescobari@gmail.com
+  labels:
+    cloud.googleapis.com/location: us-central1
+  name: school-agent-job
+  namespace: "85664796845"
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/client-name: cloud-console
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      taskCount: 1
+      template:
+        spec:
+          containers:
+            - env:
+                - name: GMAIL_CLIENT_ID
+                  value: "${GMAIL_CLIENT_ID}"
+                - name: GMAIL_CLIENT_SECRET
+                  value: "${GMAIL_CLIENT_SECRET}"
+                - name: GMAIL_REFRESH_TOKEN
+                  value: "${GMAIL_REFRESH_TOKEN}"
+                - name: GCP_PROJECT_ID
+                  value: "${GCP_PROJECT_ID}"
+                - name: DISCORD_WEBHOOK_URL
+                  value: "${DISCORD_WEBHOOK_URL}"
+                - name: SCHOOL_NAME
+                  value: "${SCHOOL_NAME}"
+                - name: CHILDCARE_NAME
+                  value: "${CHILDCARE_NAME}"
+              image: us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/school-agent-repo/school-agent:latest
+              resources:
+                limits:
+                  cpu: 1000m
+                  memory: 512Mi
+          maxRetries: 0
+          serviceAccountName: 85664796845-compute@developer.gserviceaccount.com
+          timeoutSeconds: "600"
