@@ -1,6 +1,6 @@
 name: Deploy School Agent
 
-on:
+"on":
   push:
     branches:
       - main
