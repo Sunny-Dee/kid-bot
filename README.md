@@ -1,6 +1,10 @@
 # kid-bot
 Never miss crazy hair day again. 
 
+### Deployment Status
+
+[![Deploy School Agent](https://github.com/Sunny-Dee/kid-bot/actions/workflows/deploy.yaml/badge.svg)](https://github.com/Sunny-Dee/kid-bot/actions/workflows/deploy.yaml)
+
 # Github Copespace setup
 
 To setup your environment in a Githun codespace run the following 
