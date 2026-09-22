@@ -39,6 +39,26 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           SCHOOL_NAME: ${{ secrets.SCHOOL_NAME }}
           CHILDCARE_NAME: ${{ secrets.CHILDCARE_NAME }}
+          CHILD_NAME_1: ${{ secrets.CHILD_NAME_1 }}
+          CHILD_NAME_2: ${{ secrets.CHILD_NAME_2 }}
+          CHILDCARE_LEVEL: ${{ secrets.CHILDCARE_LEVEL }}
+          KIDS_GRADE: ${{ secrets.KIDS_GRADE }}
+          TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
+          PARENTSQUARE_EMAIL_ADDRESS: ${{ secrets.PARENTSQUARE_EMAIL_ADDRESS }}
+          DISCORD_WEBHOOK_URL_PS: ${{ secrets.DISCORD_WEBHOOK_URL_PS }}
         run: |
           envsubst < job.yaml > job-hydrated.yaml
           gcloud run jobs replace job-hydrated.yaml --region us-central1
+
+      - name: Deploy ParentSquare Job
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
+          PARENTSQUARE_EMAIL_ADDRESS: ${{ secrets.PARENTSQUARE_EMAIL_ADDRESS }}
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          DISCORD_WEBHOOK_URL_PS: ${{ secrets.DISCORD_WEBHOOK_URL_PS }}
+        run: |
+          envsubst < job-ps.yaml > job-ps-hydrated.yaml
+          gcloud run jobs replace job-ps-hydrated.yaml --region us-central1

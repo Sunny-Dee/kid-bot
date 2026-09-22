@@ -1,0 +1,34 @@
+apiVersion: "run.googleapis.com/v1"
+kind: Job
+metadata:
+  name: parentsquare-agent-job
+  annotations:
+    run.googleapis.com/launch-stage: BETA
+spec:
+  template:
+    spec:
+      taskCount: 1
+      template:
+        spec:
+          maxRetries: 0
+          timeoutSeconds: 600
+          containers:
+          - image: us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/school-agent-repo/school-agent:latest
+            command: ["python", "src/main.py"]
+            env:
+            - name: AGENT_MODE
+              value: "PARENTSQUARE"
+            - name: GCP_PROJECT_ID
+              value: "${GCP_PROJECT_ID}"
+            - name: TEACHER_NAME
+              value: "${TEACHER_NAME}"
+            - name: GMAIL_SEARCH_QUERY
+              value: "from:${PARENTSQUARE_EMAIL_ADDRESS}"
+            - name: GMAIL_CLIENT_ID
+              value: "${GMAIL_CLIENT_ID}"
+            - name: GMAIL_CLIENT_SECRET
+              value: "${GMAIL_CLIENT_SECRET}"
+            - name: GMAIL_REFRESH_TOKEN
+              value: "${GMAIL_REFRESH_TOKEN}"
+            - name: DISCORD_WEBHOOK_URL
+              value: "${DISCORD_WEBHOOK_URL_PS}"

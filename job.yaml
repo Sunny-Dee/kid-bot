@@ -34,6 +34,16 @@ spec:
                   value: "${SCHOOL_NAME}"
                 - name: CHILDCARE_NAME
                   value: "${CHILDCARE_NAME}"
+                - name: CHILD_NAME_1
+                  value: "${CHILD_NAME_1}"
+                - name: CHILD_NAME_2
+                  value: "${CHILD_NAME_2}"
+                - name: CHILDCARE_LEVEL
+                  value: "${CHILDCARE_LEVEL}"
+                - name: KIDS_GRADE
+                  value: "${KIDS_GRADE}"
+                - name: TEACHER_NAME
+                  value: "${TEACHER_NAME}"
               image: us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/school-agent-repo/school-agent:latest
               resources:
                 limits:
